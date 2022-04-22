@@ -9,4 +9,4 @@ Now you can simply turn your HTML code to vanilla JavaScript document.createElem
 ```html
 gen('<h1 class="test">Example</h1>')
 ```
-3. Or just use a live generator located in index.html file
+3. Or just use a live generator: https://kvlk-dev.github.io/html-to-js/
