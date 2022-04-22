@@ -5,7 +5,7 @@ function gen(code) {
     let html = document.createElement('div');
     html.innerHTML = code
     //html = html.childNodes
-    html.childNodes.forEach((ep, i) => {
+    html.childNodes.forEach((ep) => {
         js += getElem(ep)
     })
     return  js
@@ -15,7 +15,7 @@ function getElem(ep, tag = null) {
     let js1 = ''
     if (ep.nodeName === '#text' && ep.textContent.trim() !== "") return tag + '.append(\'' + ep.textContent + '\')\n'
     if (ep.nodeName === '#text' || ep.nodeName === '#comment') return ''
-    let t = ''
+    let t
     let tn = t = ep.tagName.toLowerCase()
     if (elarr.includes(tn)) {
         for (let i = 0; i < 999; i++) {
@@ -35,7 +35,7 @@ function getElem(ep, tag = null) {
     }
     ep.getAttributeNames().forEach(a => {
         if (a !== 'class') {
-            if (a.includes('data-')) {
+            if (a.startsWith('data-')) {
                 let spl = a.split('-');
                 delete spl[0];
                 js1 += tn + '.dataset.' + spl[1]
@@ -46,16 +46,16 @@ function getElem(ep, tag = null) {
                     })
                 }
                 js1 += ' = \'' + ep.getAttribute(a) + '\'\n'
-            } else if (a.includes('style')) {
+            } else if (a === 'style') {
                 let cssAttr = ep.getAttribute(a)
                 let cssRules = []
-                if(cssAttr.includes(';')) {
+                if (cssAttr.includes(';')) {
                     cssRules = cssAttr.split(';')
                 } else {
                     cssRules.push(cssAttr)
                 }
                 cssRules.forEach(c => {
-                    if(c.includes(':')) {
+                    if (c.includes(':')) {
                         let rule = c.split(':')
                         let ruleName = rule[0]
                         if (ruleName.includes('-')) {
@@ -71,8 +71,13 @@ function getElem(ep, tag = null) {
                         js1 += ' = \'' + rule[1].trim() + '\'\n'
                     }
                 })
+            } else if (a.startsWith('on')) {
+                let action = a.substring(2)
+                let func = ep.getAttribute(a).replace('this', 'e.target')
+                js1 += tn + '.addEventListener(\'' + action + '\', e => {\n\t' + func + '\n})'
             } else {
                 js1 += tn + '.' + a + ' = \'' + ep.getAttribute(a) + '\'\n'
+
             }
         }
     })
