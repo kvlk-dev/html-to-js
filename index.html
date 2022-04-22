@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>HTML to JS example</title>
+    <link href="css/bootstrap.min.css" type="text/css" rel="stylesheet">
+</head>
+<body>
+<nav class="navbar-nav">
+    <div class="container">
+        <span class="navbar-brand">HTML to JS</span>
+    </div>
+</nav>
+<div class="container mt-3">
+    <h6>Turn your HTML into vanilla JavaScript just in a few clicks!</h6>
+    <div class="row" style="height: 500px">
+        <div class="col">
+            <textarea class="form-control" id="html_code" placeholder="Put your HTML here" style="height: 100%"></textarea>
+        </div>
+        <div class="col">
+            <textarea class="form-control" id="js_code" placeholder="Your JS will appear here" style="height: 100%"></textarea>
+        </div>
+    </div>
+</div>
+<script type="text/javascript" src="htmltojs.js"></script>
+<script>
+    document.getElementById('html_code').addEventListener('change',e => {
+        document.getElementById('js_code').value = gen(e.target.value)
+    })
+</script>
+</body>
+</html>
