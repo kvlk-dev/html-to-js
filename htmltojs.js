@@ -74,7 +74,7 @@ function getElem(ep, tag = null) {
             } else if (a.startsWith('on')) {
                 let action = a.substring(2)
                 let func = ep.getAttribute(a).replace('this', 'e.target')
-                js1 += tn + '.addEventListener(\'' + action + '\', e => {\n\t' + func + '\n})'
+                js1 += tn + '.addEventListener(\'' + action + '\', e => {\n\t' + func + '\n})\n'
             } else {
                 js1 += tn + '.' + a + ' = \'' + ep.getAttribute(a) + '\'\n'
 
